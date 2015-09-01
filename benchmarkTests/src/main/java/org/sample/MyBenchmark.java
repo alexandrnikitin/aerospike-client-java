@@ -32,22 +32,32 @@
 package org.sample;
 
 import com.aerospike.client.AerospikeClient;
+import com.aerospike.client.Key;
+import com.aerospike.client.policy.Policy;
+import com.aerospike.client.policy.Priority;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 
 @State(Scope.Thread)
 public class MyBenchmark {
-    private AerospikeClient client = new AerospikeClient("172.22.9.36", 3000);
+    private AerospikeClient client;
+    private Policy readPolicy;
 
     public MyBenchmark() {
+        client = new AerospikeClient("172.22.9.36", 3000);
 
+        readPolicy = new Policy();
+        readPolicy.priority = Priority.HIGH;
+        readPolicy.timeout = 500;
+        readPolicy.maxRetries = 0;
+        readPolicy.sleepBetweenRetries = 0;
     }
 
     @Benchmark
     public void testMethod() {
-        // This is a demo/sample template for building your JMH benchmarks. Edit as needed.
-        // Put your benchmark code here.
+        Key key = new Key("CrossDevice", "ids", 1);
+        //client.get(readPolicy, key);
     }
 
 }
