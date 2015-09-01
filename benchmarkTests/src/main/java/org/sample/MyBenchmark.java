@@ -57,7 +57,7 @@ public class MyBenchmark {
     @Benchmark
     public void testMethod() {
         Key key = new Key("CrossDevice", "ids", 1);
-        //client.get(readPolicy, key);
+        client.get(readPolicy, key);
     }
 
 }
