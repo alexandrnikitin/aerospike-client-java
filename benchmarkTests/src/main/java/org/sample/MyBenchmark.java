@@ -31,9 +31,18 @@
 
 package org.sample;
 
+import com.aerospike.client.AerospikeClient;
 import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
 
+@State(Scope.Thread)
 public class MyBenchmark {
+    private AerospikeClient client = new AerospikeClient("172.22.9.36", 3000);
+
+    public MyBenchmark() {
+
+    }
 
     @Benchmark
     public void testMethod() {
