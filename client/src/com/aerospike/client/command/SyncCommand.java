@@ -50,10 +50,10 @@ public abstract class SyncCommand extends Command {
 					Buffer.intToBytes(remainingMillis, dataBuffer, 22);
 					
 					// Send command.
-					conn.write(dataBuffer, dataOffset);
+					//conn.write(dataBuffer, dataOffset);
 					
 					// Parse results.
-					parseResult(conn);
+					//parseResult(conn);
 					
 					// Reflect healthy status.
 					conn.updateLastUsed();
@@ -82,6 +82,7 @@ public abstract class SyncCommand extends Command {
 					conn.close();
 					throw re;
 				}
+/*
 				catch (IOException ioe) {
 					// IO errors are considered temporary anomalies.  Retry.
 					// Close socket to flush out possible garbage.  Do not put back in pool.
@@ -91,6 +92,7 @@ public abstract class SyncCommand extends Command {
 						Log.debug("Node " + node + ": " + Util.getErrorMessage(ioe));
 					}
 				}
+*/
 			}
 			catch (AerospikeException.InvalidNode ine) {
 				// Node is currently inactive.  Retry.
