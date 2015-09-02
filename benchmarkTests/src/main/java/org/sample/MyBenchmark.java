@@ -38,11 +38,13 @@ import com.aerospike.client.policy.Priority;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 
-@State(Scope.Thread)
+@State(Scope.Benchmark)
 public class MyBenchmark {
     private AerospikeClient client;
     private Policy readPolicy;
+    private Key keyShared;
 
     public MyBenchmark() {
         client = new AerospikeClient("172.22.9.36", 3000);
@@ -52,9 +54,12 @@ public class MyBenchmark {
         readPolicy.timeout = 500;
         readPolicy.maxRetries = 0;
         readPolicy.sleepBetweenRetries = 0;
+
+        keyShared = new Key("CrossDevice", "ids", 1);
     }
 
     @Benchmark
+    @Threads(4)
     public void testMethod() {
         Key key = new Key("CrossDevice", "ids", 1);
         client.get(readPolicy, key);
